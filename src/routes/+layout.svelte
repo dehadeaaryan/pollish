@@ -80,17 +80,8 @@
     </header>
     {@render children()}
     <footer
-        class="mx-auto mt-auto flex w-11/12 max-w-7xl flex-wrap items-center justify-between gap-5 border-t border-line py-6 text-xs text-muted sm:py-7"
+        class="mx-auto mt-auto flex w-11/12 max-w-7xl flex-wrap items-center justify-end gap-5 border-t border-line py-6 text-xs text-muted sm:py-7"
     >
-        <a
-            class="inline-flex items-center gap-2 text-base font-black tracking-tight text-ink"
-            href="/"
-            ><img
-                class="h-8 w-8 rounded-full border border-line object-cover"
-                src="/aaryandehade-logo.png"
-                alt=""
-            />Pollish<span class="-ml-2 text-accent">.</span></a
-        >
         <span>Aaryan Dehade · © {new Date().getFullYear()}</span>
     </footer>
 </div>

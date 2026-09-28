@@ -75,7 +75,7 @@
         >
             {#each data.poll.cards as card (card.id)}
                 <article
-                    class="overflow-hidden rounded-2xl border border-line bg-surface/65 shadow-2xl backdrop-blur-xl backdrop-saturate-150 [.light_&]:border-white/40 [.light_&]:bg-white/15"
+                    class="overflow-hidden rounded-2xl border border-line bg-surface/65 shadow-2xl backdrop-blur-xl backdrop-saturate-150 in-[.light]:border-white/40 in-[.light]:bg-white/15"
                 >
                     {#if card.image_path}<img
                             class="h-56 w-full object-cover sm:h-52"
@@ -108,7 +108,7 @@
                                 ><b class="w-5">{card.yes_count}</b>
                             </div>
                             <div
-                                class="flex items-center gap-2 text-xs [&_b]:text-right [&_b]:text-muted [&>span:first-child]:text-muted [&_i]:!bg-blue"
+                                class="flex items-center gap-2 text-xs [&_b]:text-right [&_b]:text-muted [&>span:first-child]:text-muted [&_i]:bg-blue!"
                             >
                                 <span
                                     class="inline-flex w-14 items-center gap-1 text-sage"
@@ -149,7 +149,7 @@
         </section>
     {:else}
         <section
-            class="grid justify-items-center px-5 py-14 text-center sm:py-16 rounded-3xl border border-line bg-surface/65 shadow-2xl backdrop-blur-xl backdrop-saturate-150 [.light_&]:border-white/40 [.light_&]:bg-white/15"
+            class="grid justify-items-center px-5 py-14 text-center sm:py-16 rounded-3xl border border-line bg-surface/65 shadow-2xl backdrop-blur-xl backdrop-saturate-150 in-[.light]:border-white/40 in-[.light]:bg-white/15"
         >
             <div
                 class="mb-5 grid h-12 w-12 place-items-center rounded-2xl border border-line bg-raised text-accent"
