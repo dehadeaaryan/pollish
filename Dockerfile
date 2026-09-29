@@ -12,7 +12,7 @@ ENV PORT=3000
 ENV UPLOAD_DIR=/app/uploads
 ENV BODY_SIZE_LIMIT=9M
 WORKDIR /app
-COPY package.json bun.lock ./
+COPY --from=build /app/package.json /app/bun.lock ./
 RUN bun install --production --frozen-lockfile
 COPY --from=build /app/build ./build
 EXPOSE 3000
