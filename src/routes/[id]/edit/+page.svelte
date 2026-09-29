@@ -29,7 +29,7 @@
 	}
 </script>
 
-<svelte:head><title>Edit {data.poll.name.toUpperCase()} — Pollish</title></svelte:head>
+<svelte:head><title>Edit {data.poll.name.toUpperCase()} — Pollish</title><meta name="robots" content="noindex, nofollow" /></svelte:head>
 
 <main class="mx-auto w-11/12 max-w-7xl py-7 sm:pt-10 sm:pb-20">
 	<div class="mb-6"><a class="inline-flex items-center gap-2 text-xs font-bold text-muted hover:text-ink" href="/"><ArrowLeft class="size-3.5" /> All Pollish</a></div>

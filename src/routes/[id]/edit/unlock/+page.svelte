@@ -5,7 +5,7 @@
   let { data, form } = $props();
 </script>
 
-<svelte:head><title>Edit {data.pollName} — Pollish</title></svelte:head>
+<svelte:head><title>Edit {data.pollName} — Pollish</title><meta name="robots" content="noindex, nofollow" /></svelte:head>
 
 <main class="mx-auto flex w-11/12 max-w-lg flex-1 flex-col justify-center py-16">
   <a class="mb-8 inline-flex items-center gap-2 self-start text-sm text-muted hover:text-ink" href={`/${data.pollId}`}><ArrowLeft class="size-4" /> Back to poll</a>

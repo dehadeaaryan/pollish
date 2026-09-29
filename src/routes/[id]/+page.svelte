@@ -9,6 +9,7 @@
         ThumbsUp,
     } from "@lucide/svelte";
     import { enhance } from "$app/forms";
+    import { page } from "$app/state";
     let { data } = $props();
     let copied = $state(false);
     async function copyLink() {
@@ -18,15 +19,21 @@
     }
 </script>
 
-<svelte:head
-    ><title>{data.poll.name.toUpperCase()} — Pollish</title><meta
-        property="og:title"
-        content={data.poll.name.toUpperCase()}
-    /><meta
-        property="og:description"
-        content="Help choose together on Pollish."
-    /></svelte:head
->
+<svelte:head>
+    <title>{data.poll.name.toUpperCase()} — Pollish</title>
+    <meta name="description" content={`Vote on ${data.poll.name} with your group on Pollish.`} />
+    <link rel="canonical" href={new URL(page.url.pathname, page.url).href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(page.url.pathname, page.url).href} />
+    <meta property="og:title" content={`${data.poll.name.toUpperCase()} — Pollish`} />
+    <meta property="og:description" content={`Vote on ${data.poll.name} with your group on Pollish.`} />
+    <meta property="og:image" content={new URL('/og-preview.png', page.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={new URL(page.url.pathname, page.url).href} />
+    <meta name="twitter:title" content={`${data.poll.name.toUpperCase()} — Pollish`} />
+    <meta name="twitter:description" content={`Vote on ${data.poll.name} with your group on Pollish.`} />
+    <meta name="twitter:image" content={new URL('/og-preview.png', page.url).href} />
+</svelte:head>
 
 <main
     class="relative isolate mx-auto w-11/12 max-w-6xl overflow-hidden rounded-3xl px-4 p-2 sm:p-4 sm:px-6"

@@ -17,11 +17,6 @@
 </script>
 
 <svelte:head>
-    <title>Pollish — Better decisions, together</title>
-    <meta
-        name="description"
-        content="Make visual polls, share them with your people, and decide together."
-    />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/aaryandehade-logo.png" />
 </svelte:head>

@@ -1,11 +1,26 @@
 <script lang="ts">
     import { ArrowRight } from "@lucide/svelte";
     import { enhance } from "$app/forms";
+    import { page } from "$app/state";
     let { form } = $props();
     let editMode = $state("password");
 </script>
 
-<svelte:head><title>Pollish — Better decisions, together</title></svelte:head>
+<svelte:head>
+    <title>Pollish — Better decisions, together</title>
+    <meta name="description" content="Make visual polls, share them with your people, and decide together." />
+    <link rel="canonical" href={new URL('/', page.url).href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL('/', page.url).href} />
+    <meta property="og:title" content="Pollish — Better decisions, together" />
+    <meta property="og:description" content="Make visual polls, share them with your people, and decide together." />
+    <meta property="og:image" content={new URL('/og-preview.png', page.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={new URL('/', page.url).href} />
+    <meta name="twitter:title" content="Pollish — Better decisions, together" />
+    <meta name="twitter:description" content="Make visual polls, share them with your people, and decide together." />
+    <meta name="twitter:image" content={new URL('/og-preview.png', page.url).href} />
+</svelte:head>
 
 <main class="mx-auto w-11/12 max-w-7xl">
     <section
