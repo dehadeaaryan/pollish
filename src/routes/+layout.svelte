@@ -1,7 +1,7 @@
 <script lang="ts">
     import "$lib/styles.css";
     import { ui } from "$lib/ui";
-    import { Moon, Sun } from "@lucide/svelte";
+    import { ArrowRight, Moon, Sun } from "@lucide/svelte";
     import { onMount } from "svelte";
     let { children } = $props();
     let light = $state(false);
@@ -53,10 +53,6 @@
             aria-label="Main navigation"
         >
             <a
-                class="hidden rounded-full px-4 py-2.5 text-xs font-bold text-muted transition hover:bg-white/10 hover:text-accent sm:block"
-                href="/#how-it-works">How it works</a
-            >
-            <a
                 class={`${ui.button} ${ui.secondary} min-h-9 px-3 text-xs sm:min-h-10 sm:px-4`}
                 href="/#create"
                 >Make a poll <span aria-hidden="true">↗</span></a
@@ -74,9 +70,11 @@
         </nav>
     </header>
     {@render children()}
-    <footer
-        class="mx-auto mt-auto flex w-11/12 max-w-7xl flex-wrap items-center justify-end gap-5 border-t border-line py-6 text-xs text-muted sm:py-7"
-    >
-        <span>Aaryan Dehade · © {new Date().getFullYear()}</span>
+    <footer class="mt-auto flex items-center justify-between gap-5 border-t border-line px-4 py-7 text-[11px] text-muted sm:px-8 lg:px-[max(32px,calc((100%-1176px)/2))]">
+        <a href="/" class="inline-flex items-center gap-2.5 text-xl font-black tracking-tight text-ink transition hover:text-accent" aria-label="Pollish home">
+            <img src="/aaryandehade-logo.png" width="30" height="30" class="rounded-lg" alt="" />
+            <span>Pollish<span class="text-accent">.</span></span>
+        </a>
+        <a href="/help" class="inline-flex items-center gap-2 transition hover:text-accent">Help &amp; setup <ArrowRight class="size-3.5" /></a>
     </footer>
 </div>
