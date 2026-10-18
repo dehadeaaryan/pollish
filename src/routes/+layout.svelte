@@ -17,8 +17,10 @@
 </script>
 
 <svelte:head>
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="apple-touch-icon" href="/aaryandehade-logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=cyan-glitch-1" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=cyan-glitch-1" />
+    <link rel="shortcut icon" href="/favicon.ico?v=cyan-glitch-1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=cyan-glitch-1" />
 </svelte:head>
 
 <div
@@ -43,8 +45,8 @@
             href="/"
             aria-label="Pollish home"
             ><img
-                class="h-9 w-9 rounded-lg border border-white/20 shadow-md transition group-hover:-rotate-3 group-hover:scale-105 sm:h-10 sm:w-10"
-                src="/aaryandehade-logo.png"
+                class="h-8 w-[46px] object-contain drop-shadow-[0_0_8px_rgba(0,234,255,0.25)] transition group-hover:-rotate-3 group-hover:scale-105 group-hover:drop-shadow-[0_0_11px_rgba(0,234,255,0.45)] sm:h-9 sm:w-[52px]"
+                src="/aaryandehade-logo.png?v=cyan-glitch-1"
                 alt=""
             /><span>Pollish<span class="text-accent">.</span></span></a
         >
@@ -72,7 +74,7 @@
     {@render children()}
     <footer class="mt-auto flex items-center justify-between gap-5 border-t border-line px-4 py-7 text-[11px] text-muted sm:px-8 lg:px-[max(32px,calc((100%-1176px)/2))]">
         <a href="/" class="inline-flex items-center gap-2.5 text-xl font-black tracking-tight text-ink transition hover:text-accent" aria-label="Pollish home">
-            <img src="/aaryandehade-logo.png" width="30" height="30" class="rounded-lg" alt="" />
+            <img src="/aaryandehade-logo.png?v=cyan-glitch-1" width="40" height="28" class="object-contain drop-shadow-[0_0_7px_rgba(0,234,255,0.25)]" alt="" />
             <span>Pollish<span class="text-accent">.</span></span>
         </a>
         <a href="/help" class="inline-flex items-center gap-2 transition hover:text-accent">Help &amp; setup <ArrowRight class="size-3.5" /></a>
