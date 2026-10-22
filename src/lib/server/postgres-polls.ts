@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { database, prepareDatabase } from './db';
 
+export type NamedVote = { card_id: string; choice: 'yes' | 'no'; name: string };
+
 export type PollCard = {
 	id: string;
 	poll_id: string;
@@ -109,4 +111,32 @@ export async function getVoterVotes(pollId: string, voterId: string) {
 		SELECT v.card_id, v.choice FROM poll_votes v JOIN poll_cards c ON c.id = v.card_id
 		WHERE c.poll_id = ${pollId}::uuid AND v.voter_id = ${voterId}::uuid`;
 	return Object.fromEntries(rows.map((row) => [String(row.card_id), row.choice])) as Record<string, 'yes' | 'no'>;
+}
+
+export async function removeVote(cardId: string, voterId: string) {
+    await prepareDatabase();
+    await database()`DELETE FROM poll_votes WHERE card_id = ${cardId}::uuid AND voter_id = ${voterId}::uuid`;
+}
+export async function resetVotes(pollId: string, voterId: string) {
+    await prepareDatabase();
+    await database()`DELETE FROM poll_votes WHERE voter_id = ${voterId}::uuid AND card_id IN (SELECT id FROM poll_cards WHERE poll_id = ${pollId}::uuid)`;
+}
+
+export async function setVoterName(pollId: string, voterId: string, name: string) {
+    await prepareDatabase();
+    if (!name) { await database()`DELETE FROM poll_participants WHERE poll_id = ${pollId}::uuid AND voter_id = ${voterId}::uuid`; return; }
+    await database()`INSERT INTO poll_participants (poll_id, voter_id, name) VALUES (${pollId}::uuid, ${voterId}::uuid, ${name})
+        ON CONFLICT (poll_id, voter_id) DO UPDATE SET name = EXCLUDED.name`;
+}
+export async function getVoterName(pollId: string, voterId: string) {
+    await prepareDatabase();
+    const [row] = await database()<{ name: string }[]>`SELECT name FROM poll_participants WHERE poll_id = ${pollId}::uuid AND voter_id = ${voterId}::uuid`;
+    return row?.name ?? '';
+}
+export async function getNamedVotes(pollId: string): Promise<NamedVote[]> {
+    await prepareDatabase();
+    return await database()<NamedVote[]>`SELECT v.card_id, v.choice, p.name FROM poll_votes v
+        JOIN poll_cards c ON c.id = v.card_id
+        JOIN poll_participants p ON p.poll_id = c.poll_id AND p.voter_id = v.voter_id
+        WHERE c.poll_id = ${pollId}::uuid ORDER BY p.name, v.created_at`;
 }

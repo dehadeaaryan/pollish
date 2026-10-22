@@ -25,3 +25,11 @@ Schedule PostgreSQL backups from the database resource's Backups page. Also back
 ## Local development
 
 Install dependencies with `bun install`, then run `bun run dev`. The app creates a local SQLite database at `.data/pollish.sqlite` when you create the first poll. Uploaded images go to `.data/uploads`. Both paths are ignored by Git. The local SQLite adapter supports Bun and Node 22.13 or newer, which Vite may use for server actions. To use a different local SQLite file, set `SQLITE_PATH`. To use PostgreSQL locally, set `DATABASE_URL` instead. The production app requires `DATABASE_URL`.
+
+## Voting and journey checks
+
+Voters can switch between Cards, Swipe, and Results. Swipe right to vote yes or left to vote no, using touch or a mouse; buttons also support keyboard navigation. The next card advances after the vote saves. Clicking a selected vote in Cards clears it. Reset my votes clears only the current browser’s votes for that poll and restarts the deck. Votes are remembered with a browser cookie.
+
+With the local server running at `http://localhost:5173`, run `bun run test:ui` for phone-sized creator/visitor flows and desktop swiping. The tests create and delete their own polls; use a disposable database (`SQLITE_PATH=/tmp/pollish-test.sqlite bun run dev`) for testing. Install Chromium with `bunx playwright install chromium` if needed.
+
+Voters may add an optional display name on each poll. Results show that name alongside their choices to everyone with the link. Names are scoped to the poll, can be changed or cleared without changing votes, and do not require an account. Existing votes remain anonymous until their voter adds a name.

@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import type { Poll, PollCard } from './postgres-polls';
+import type { Poll, PollCard, NamedVote } from './postgres-polls';
 
 type Parameter = string | number | null;
 type Statement<T> = {
@@ -57,6 +57,11 @@ async function openDatabase(): Promise<SQLiteClient> {
 		voter_id TEXT NOT NULL, choice TEXT NOT NULL CHECK (choice IN ('yes', 'no')),
 		created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(card_id, voter_id)
 	);
+    CREATE TABLE IF NOT EXISTS poll_participants (
+        poll_id TEXT NOT NULL REFERENCES polls(id) ON DELETE CASCADE,
+        voter_id TEXT NOT NULL, name TEXT NOT NULL,
+        PRIMARY KEY (poll_id, voter_id)
+    );
 	CREATE INDEX IF NOT EXISTS poll_cards_order_idx ON poll_cards(poll_id, position);
 	CREATE INDEX IF NOT EXISTS poll_votes_card_idx ON poll_votes(card_id);`);
 	const columns = db.query<{ name: string }>('PRAGMA table_info(polls)').all().map((column) => column.name);
@@ -144,4 +149,26 @@ export async function getVoterVotes(pollId: string, voterId: string) {
 	const rows = (await database()).query<{ card_id: string; choice: 'yes' | 'no' }>(`SELECT v.card_id, v.choice FROM poll_votes v
 		JOIN poll_cards c ON c.id = v.card_id WHERE c.poll_id = ? AND v.voter_id = ?`).all(pollId, voterId);
 	return Object.fromEntries(rows.map((row) => [row.card_id, row.choice])) as Record<string, 'yes' | 'no'>;
+}
+
+export async function removeVote(cardId: string, voterId: string) {
+    (await database()).query('DELETE FROM poll_votes WHERE card_id = ? AND voter_id = ?').run(cardId, voterId);
+}
+export async function resetVotes(pollId: string, voterId: string) {
+    (await database()).query('DELETE FROM poll_votes WHERE voter_id = ? AND card_id IN (SELECT id FROM poll_cards WHERE poll_id = ?)').run(voterId, pollId);
+}
+
+export async function setVoterName(pollId: string, voterId: string, name: string) {
+    const db = await database();
+    if (!name) { db.query('DELETE FROM poll_participants WHERE poll_id = ? AND voter_id = ?').run(pollId, voterId); return; }
+    db.query('INSERT INTO poll_participants (poll_id, voter_id, name) VALUES (?, ?, ?) ON CONFLICT (poll_id, voter_id) DO UPDATE SET name = excluded.name').run(pollId, voterId, name);
+}
+export async function getVoterName(pollId: string, voterId: string) {
+    return (await database()).query<{ name: string }>('SELECT name FROM poll_participants WHERE poll_id = ? AND voter_id = ?').get(pollId, voterId)?.name ?? '';
+}
+export async function getNamedVotes(pollId: string): Promise<NamedVote[]> {
+    return (await database()).query<NamedVote>(`SELECT v.card_id, v.choice, p.name FROM poll_votes v
+        JOIN poll_cards c ON c.id = v.card_id
+        JOIN poll_participants p ON p.poll_id = c.poll_id AND p.voter_id = v.voter_id
+        WHERE c.poll_id = ? ORDER BY p.name, v.created_at`).all(pollId);
 }

@@ -47,7 +47,7 @@
   --blue: #465c88;
 }
 
-html { min-width: 320px; scroll-behavior: smooth; }
+html { min-width: 320px; scroll-behavior: smooth; scroll-padding-top: 96px; }
 body { margin: 0; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 ::selection { color: #fff; background: #ff7a3060; }
@@ -68,3 +68,13 @@ body { margin: 0; }
 @keyframes squish { from { border-radius: 45% 55% 65% 35% / 45% 35% 65% 55%; } to { border-radius: 65% 35% 42% 58% / 52% 63% 37% 48%; } }
 @media (max-width: 640px) { .ambient-blob { min-width: 430px; min-height: 430px; filter: blur(45px); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+button:disabled { cursor: wait; opacity: .6; }
+h1, h2, p { overflow-wrap: anywhere; }
+
+button, a, input[type='radio'], input[type='checkbox'], label:has(input[type='radio']) { cursor: pointer; }
+button, a { transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, scale 180ms ease; }
+@media (hover: hover) { button:not(:disabled):hover, a:hover { filter: brightness(1.12); } }
+button:not(:disabled):active, a:active { scale: .96; }
+button[aria-pressed='true'] svg { animation: vote-pop 260ms ease; }
+@keyframes vote-pop { 50% { transform: scale(1.25); } }

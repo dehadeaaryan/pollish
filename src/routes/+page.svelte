@@ -1,6 +1,7 @@
 <script lang="ts">
     import PollPreview from "$lib/components/PollPreview.svelte";
     import { ArrowRight } from "@lucide/svelte";
+    import { formFeedback } from "$lib/form-feedback";
     import { enhance } from "$app/forms";
     import { page } from "$app/state";
     let { form } = $props();
@@ -29,7 +30,7 @@
 
 <main class="mx-auto w-11/12 max-w-7xl">
     <section
-        class="grid items-center gap-8 py-12 md:grid-cols-2 md:gap-8 lg:gap-12 md:py-8 lg:py-16"
+        class="grid items-center gap-8 py-4 md:grid-cols-2 md:gap-8 lg:gap-12 md:py-6 lg:py-10"
     >
         <div class="min-w-0">
             <h1 class="my-5 text-5xl sm:text-6xl leading-none font-black tracking-tighter md:text-7xl lg:text-8xl">
@@ -49,7 +50,7 @@
             <form
                 method="POST"
                 action="?/create"
-                use:enhance
+                use:enhance={formFeedback}
                 class="grid gap-2"
             >
                 <label
@@ -65,7 +66,7 @@
                     required
                     value={form?.name ?? ""}
                 />
-                <fieldset class="mt-4 grid gap-3">
+                <p class="mt-3 text-xs leading-relaxed text-muted">Anyone with the share link can vote without a password. This setting only controls editing.</p><fieldset class="mt-4 grid gap-3">
                     <legend class="mb-2 text-xs font-bold text-muted"
                         >Who can edit?</legend
                     >
@@ -90,6 +91,7 @@
                         /> Anyone with the poll link</label
                     >
                 </fieldset>
+                {#if editMode === "public"}<p class="text-xs text-muted">Anyone with the link can rename the poll and add or remove choices.</p>{/if}
                 {#if editMode === "password"}
                     <div class="mt-2">
                         <label

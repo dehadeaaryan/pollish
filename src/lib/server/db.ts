@@ -45,6 +45,12 @@ export async function prepareDatabase() {
 				created_at timestamptz NOT NULL DEFAULT now(),
 				UNIQUE (card_id, voter_id)
 			)`);
+            await sql.unsafe(`CREATE TABLE IF NOT EXISTS poll_participants (
+                poll_id uuid NOT NULL REFERENCES polls(id) ON DELETE CASCADE,
+                voter_id uuid NOT NULL,
+                name varchar(40) NOT NULL,
+                PRIMARY KEY (poll_id, voter_id)
+            )`);
 			await sql.unsafe('CREATE INDEX IF NOT EXISTS poll_cards_order_idx ON poll_cards (poll_id, position)');
 			await sql.unsafe('CREATE INDEX IF NOT EXISTS poll_votes_card_idx ON poll_votes (card_id)');
 		})().catch((cause) => {

@@ -24,7 +24,7 @@
 </svelte:head>
 
 <div
-    class="relative isolate flex gap-2 md:gap-12 min-h-screen flex-col overflow-clip bg-canvas font-sans text-ink"
+    class="relative isolate flex gap-5 sm:gap-8 min-h-screen flex-col overflow-clip bg-canvas font-sans text-ink"
 >
     <div
         class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-canvas"

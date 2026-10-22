@@ -1,6 +1,6 @@
 import { env } from '$env/dynamic/private';
 
-export type { Poll, PollCard } from './postgres-polls';
+export type { Poll, PollCard, NamedVote } from './postgres-polls';
 
 async function repository() {
 	if (env.DATABASE_URL || process.env.DATABASE_URL) return import('./postgres-polls');
@@ -23,3 +23,10 @@ export async function setPollBackgroundColor(pollId: string, color: string) { re
 export async function removePoll(id: string) { return (await repository()).removePoll(id); }
 export async function recordVote(cardId: string, voterId: string, choice: 'yes' | 'no') { return (await repository()).recordVote(cardId, voterId, choice); }
 export async function getVoterVotes(pollId: string, voterId: string) { return (await repository()).getVoterVotes(pollId, voterId); }
+
+export async function removeVote(cardId: string, voterId: string) { return (await repository()).removeVote(cardId, voterId); }
+export async function resetVotes(pollId: string, voterId: string) { return (await repository()).resetVotes(pollId, voterId); }
+
+export async function setVoterName(pollId: string, voterId: string, name: string) { return (await repository()).setVoterName(pollId, voterId, name); }
+export async function getVoterName(pollId: string, voterId: string) { return (await repository()).getVoterName(pollId, voterId); }
+export async function getNamedVotes(pollId: string) { return (await repository()).getNamedVotes(pollId); }
